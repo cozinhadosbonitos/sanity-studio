@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "project": {
+    "name": "Cozinha dos Bonitos"
+  },
+  "api": {
+    "projectId": "nufe3788",
+    "dataset": "production"
+  },
+  "plugins": [
+    "@sanity/base",
+    "@sanity/components",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "media"
+  ],
+  "parts": [
+    {
+      "name": "part:@sanity/base/schema",
+      "path": "./schemas/schema.ts"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "./parts/assetSources.ts"
+    }
+  ]
+}

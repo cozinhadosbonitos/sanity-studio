@@ -1,0 +1,90 @@
+{
+  "name": "cozinhadosbonitos-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sanity studio for Cozinha dos Bonitos",
+  "main": "package.json",
+  "author": "Bruno Alla <alla.brunoo@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint:eslint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint:tsc": "tsc",
+    "deploy": "yarn run deploy:studio && yarn run deploy:graphql",
+    "deploy:studio": "sanity deploy",
+    "deploy:graphql": "sanity graphql deploy --no-playground",
+    "build": "sanity build",
+    "start": "sanity start",
+    "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token",
+    "pretest": "yarn build",
+    "test": "sanity check"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/base": "2.8.0",
+    "@sanity/cli": "2.8.0",
+    "@sanity/components": "2.2.6",
+    "@sanity/core": "2.8.0",
+    "@sanity/default-layout": "2.8.0",
+    "@sanity/default-login": "2.8.0",
+    "@sanity/desk-tool": "2.8.0",
+    "prop-types": "15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-icons": "4.2.0",
+    "sanity-plugin-media": "1.2.2",
+    "typescript": "4.2.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "4.22.0",
+    "eslint": "7.24.0",
+    "eslint-config-prettier": "8.2.0",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-react": "7.23.2",
+    "prettier": "2.2.1"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "prettier"
+    ],
+    "plugins": [
+      "react",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 9,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "semi": false,
+          "singleQuote": true,
+          "trailingComma": "es5"
+        }
+      ]
+    }
+  },
+  "renovate": {
+    "extends": [
+      "github>browniebroke/renovate-configs"
+    ]
+  }
+}
