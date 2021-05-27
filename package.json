@@ -13,7 +13,7 @@
     "lint:tsc": "tsc",
     "deploy": "yarn run deploy:studio && yarn run deploy:graphql",
     "deploy:studio": "sanity deploy",
-    "deploy:graphql": "sanity graphql deploy --no-playground",
+    "deploy:graphql": "sanity graphql deploy --no-playground --force",
     "build": "sanity build",
     "start": "sanity start",
     "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token",
