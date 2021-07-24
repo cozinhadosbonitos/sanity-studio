@@ -7,6 +7,10 @@ export default {
       name: 'display',
       title: 'Display',
       type: 'string',
+      description:
+        'As it should be displayed in the recipe. Typically the ' +
+        'quantity + name (e.g. "3 eggs", "100g of flour")',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'food',
