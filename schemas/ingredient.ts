@@ -13,6 +13,7 @@ export default {
       title: 'Food',
       type: 'reference',
       to: [{ type: 'food' }],
+      validation: (Rule) => Rule.required(),
     },
   ],
 }

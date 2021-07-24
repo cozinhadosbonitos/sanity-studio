@@ -24,20 +24,25 @@ export default {
       title: 'Title',
       type: 'string',
       description: 'Name of the recipe.',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'The path of the recipe page for its URL. Should be unique.',
+      description:
+        'The path of the recipe page for its URL. Should be unique. ' +
+        "Click generate to generate from the recipe's title",
       options: {
         source: 'title',
       },
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'photo',
       title: 'Photo',
       type: 'image',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'createdAt',
@@ -71,39 +76,42 @@ export default {
       type: 'text',
       description:
         'Quick description of the dish. Displayed at the top of the recipe and in previews.',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'servings',
       title: 'Number of people',
       type: 'number',
       description: 'Number of portions the dish is for.',
-      validation: (Rule) => Rule.positive().integer(),
+      validation: (Rule) => Rule.required().positive().integer(),
     },
     {
       name: 'prepTime',
       title: 'Preparation time',
       type: 'number',
       description: 'In minutes.',
-      validation: (Rule) => Rule.positive().integer(),
+      validation: (Rule) => Rule.required().positive().integer(),
     },
     {
       name: 'cookingTime',
       title: 'Cooking time',
       type: 'number',
       description: 'In minutes.',
-      validation: (Rule) => Rule.positive().integer(),
+      validation: (Rule) => Rule.required().positive().integer(),
     },
     {
       name: 'isSweet',
       title: 'Sweet dish?',
       type: 'boolean',
       description: 'Check if this is a sweet dish.',
+      initialValue: false,
     },
     {
       name: 'isSavoury',
       title: 'Savoury dish?',
       type: 'boolean',
       description: 'Check if this is a savoury dish.',
+      initialValue: false,
     },
     {
       name: 'courseType',
@@ -119,6 +127,8 @@ export default {
           { title: 'Starter', value: 'starter' },
         ],
       },
+      initialValue: 'main',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'tags',
