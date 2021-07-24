@@ -6,7 +6,11 @@ export default {
   type: 'document',
   icon: GrOrderedList,
   preview: {
-    select: { title: 'title' },
+    select: {
+      title: 'title',
+      subtitle: 'description',
+      media: 'photo',
+    },
   },
   initialValue: () => ({
     createdAt: new Date().toISOString(),

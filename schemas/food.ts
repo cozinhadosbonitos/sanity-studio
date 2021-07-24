@@ -1,4 +1,3 @@
-import { IoFastFood } from 'react-icons/io5'
 import { GrCafeteria } from 'react-icons/gr'
 
 export default {
@@ -19,6 +18,9 @@ export default {
     },
   ],
   preview: {
-    select: { title: 'name', media: 'photo' },
+    select: {
+      title: 'name',
+      media: 'photo',
+    },
   },
 }
