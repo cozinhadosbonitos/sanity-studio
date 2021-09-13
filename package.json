@@ -14,11 +14,9 @@
     "deploy": "yarn run deploy:studio && yarn run deploy:graphql",
     "deploy:studio": "sanity deploy",
     "deploy:graphql": "sanity graphql deploy --no-playground --force",
-    "build": "sanity build",
+    "test": "sanity build",
     "start": "sanity start",
-    "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token",
-    "pretest": "yarn build",
-    "test": "sanity check"
+    "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token"
   },
   "keywords": [
     "sanity"
@@ -35,6 +33,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "4.2.0",
+    "styled-components": "5.2.0",
     "typescript": "4.4.3"
   },
   "devDependencies": {
