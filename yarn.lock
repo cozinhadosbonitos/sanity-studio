@@ -1298,10 +1298,10 @@
     get-random-values "^1.2.2"
     lodash "^4.17.15"
 
-"@sanity/cli@2.19.0":
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-2.19.0.tgz#9c69e803eec4861a9dfa38b30392df231dafed30"
-  integrity sha512-Ek5fYtLF7KwhMon5Hihwn+dp+V1acv3joGI3B0MZZdyj3QJJs9nH5qcDAZnRtRK+KhBfdRCetnHkrw1hHCPjvg==
+"@sanity/cli@2.19.1":
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-2.19.1.tgz#b0cfd36f39962cc2868160eba055e7f5981a8758"
+  integrity sha512-AkB329ihe7liJG7lxZCuPCAJ1uqMHIS/exgml2ZnilP1yQdAWMSjTSnUVQxVA81K++oHoFW2hQZ72zbZAfucCw==
 
 "@sanity/client@2.19.0":
   version "2.19.0"
@@ -1326,10 +1326,10 @@
   resolved "https://registry.yarnpkg.com/@sanity/components/-/components-2.14.0.tgz#840d8e98fd55f35e2db2b211310c983b9f78cac4"
   integrity sha512-D8t7l+exvw1cg80m8yDZDRboAI6L827FeCacGjTOdElvgrR2shtsbepYui7ODfRgx9ynAceNDsQ1VSNnUgIHug==
 
-"@sanity/core@2.19.0":
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/@sanity/core/-/core-2.19.0.tgz#b435773319efdc3f5d63e39a1b0752998bbd5200"
-  integrity sha512-5m3RB7GYvm7fJMr+79JDZ68ziLsh23RM2dvdGaJRTaf85wVu+INa/F2IZUyzrFtbOvPEnRoTBevaHAl83T7diQ==
+"@sanity/core@2.19.2":
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/@sanity/core/-/core-2.19.2.tgz#168aeef1761a50f6e8a81989c2fb68b254771794"
+  integrity sha512-IFYF+C5WI5o+uVBbICRwzPsGldSdRAtNRCz9UrGe5Ox/GQXmwXZ2btP800wgCJ6jCrDxyj8yuoRIzOIaJg50tA==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.10.4"
     "@babel/preset-env" "^7.11.5"
