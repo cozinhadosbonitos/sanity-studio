@@ -11,7 +11,7 @@
     "lint:eslint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lint:tsc": "tsc",
-    "deploy": "yarn run deploy:studio && yarn run deploy:graphql",
+    "deploy": "npm run deploy:studio && npm run deploy:graphql",
     "deploy:studio": "sanity deploy",
     "deploy:graphql": "sanity graphql deploy --no-playground --force",
     "test": "sanity build",
