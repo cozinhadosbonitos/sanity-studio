@@ -14,7 +14,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Read node version from `.nvmrc` file
       - id: nvmrc
         uses: browniebroke/read-nvmrc-action@v1
@@ -33,7 +33,7 @@ jobs:
           - prettier
           - tsc
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Read node version from `.nvmrc` file
       - id: nvmrc
         uses: browniebroke/read-nvmrc-action@v1
@@ -51,7 +51,7 @@ jobs:
       - test
       - lint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Read node version from `.nvmrc` file
       - id: nvmrc
         uses: browniebroke/read-nvmrc-action@v1
