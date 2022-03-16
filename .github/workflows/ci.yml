@@ -22,20 +22,7 @@ jobs:
       - run: npm run test
 
   lint:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        linter:
-          - eslint
-          - prettier
-          - tsc
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-      - run: npm i
-      - run: npm run lint:${{ matrix.linter }}
+    uses: browniebroke/github-actions/.github/workflows/ts-lint.yml@v1
 
   deploy:
     runs-on: ubuntu-latest
