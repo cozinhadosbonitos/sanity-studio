@@ -15,12 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # Read node version from `.nvmrc` file
-      - id: nvmrc
-        uses: browniebroke/read-nvmrc-action@v1
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nvmrc.outputs.node_version }}'
+          node-version-file: '.nvmrc'
       - run: npm i
       - run: npm run test
 
@@ -34,12 +31,9 @@ jobs:
           - tsc
     steps:
       - uses: actions/checkout@v3
-      # Read node version from `.nvmrc` file
-      - id: nvmrc
-        uses: browniebroke/read-nvmrc-action@v1
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nvmrc.outputs.node_version }}'
+          node-version-file: '.nvmrc'
       - run: npm i
       - run: npm run lint:${{ matrix.linter }}
 
@@ -52,12 +46,9 @@ jobs:
       - lint
     steps:
       - uses: actions/checkout@v3
-      # Read node version from `.nvmrc` file
-      - id: nvmrc
-        uses: browniebroke/read-nvmrc-action@v1
       - uses: actions/setup-node@v3
         with:
-          node-version: '${{ steps.nvmrc.outputs.node_version }}'
+          node-version-file: '.nvmrc'
       - name: Install Deps
         run: npm i
       - name: Deploy
