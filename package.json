@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@sanity/types": "2.33.2",
-    "@typescript-eslint/parser": "5.38.0",
+    "@typescript-eslint/parser": "5.38.1",
     "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
