@@ -13,7 +13,7 @@
     "lint:tsc": "tsc",
     "deploy": "npm run deploy:studio && npm run deploy:graphql",
     "deploy:studio": "sanity deploy",
-    "deploy:graphql": "sanity graphql deploy --no-playground --force",
+    "deploy:graphql": "sanity graphql deploy --force",
     "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build"
