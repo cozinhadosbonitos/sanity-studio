@@ -16,8 +16,7 @@
     "deploy:graphql": "sanity graphql deploy --no-playground --force",
     "dev": "sanity dev",
     "start": "sanity start",
-    "build": "sanity build",
-    "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token"
+    "build": "sanity build"
   },
   "keywords": [
     "sanity"
