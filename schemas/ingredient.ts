@@ -1,3 +1,5 @@
+import {Rule} from 'sanity'
+
 export default {
   name: 'ingredient',
   title: 'Ingredient',
@@ -10,14 +12,14 @@ export default {
       description:
         'As it should be displayed in the recipe. Typically the ' +
         'quantity + name (e.g. "3 eggs", "100g of flour")',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'food',
       title: 'Food',
       type: 'reference',
       to: [{ type: 'food' }],
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
   ],
 }

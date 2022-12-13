@@ -1,3 +1,4 @@
+import {Rule} from 'sanity'
 import { GrOrderedList } from 'react-icons/gr'
 
 export default {
@@ -28,7 +29,7 @@ export default {
       title: 'Title',
       type: 'string',
       description: 'Name of the recipe.',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'slug',
@@ -40,13 +41,13 @@ export default {
       options: {
         source: 'title',
       },
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'photo',
       title: 'Photo',
       type: 'image',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'createdAt',
@@ -80,28 +81,28 @@ export default {
       type: 'text',
       description:
         'Quick description of the dish. Displayed at the top of the recipe and in previews.',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'servings',
       title: 'Number of people',
       type: 'number',
       description: 'Number of portions the dish is for.',
-      validation: (Rule) => Rule.required().positive().integer(),
+      validation: (rule: Rule) => rule.required().positive().integer(),
     },
     {
       name: 'prepTime',
       title: 'Preparation time',
       type: 'number',
       description: 'In minutes.',
-      validation: (Rule) => Rule.required().positive().integer(),
+      validation: (rule: Rule) => rule.required().positive().integer(),
     },
     {
       name: 'cookingTime',
       title: 'Cooking time',
       type: 'number',
       description: 'In minutes.',
-      validation: (Rule) => Rule.required().positive().integer(),
+      validation: (rule: Rule) => rule.required().positive().integer(),
     },
     {
       name: 'isSweet',
@@ -132,7 +133,7 @@ export default {
         ],
       },
       initialValue: 'main',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     },
     {
       name: 'tags',
