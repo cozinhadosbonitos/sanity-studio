@@ -1,4 +1,4 @@
-import {Rule} from 'sanity'
+import { Rule } from 'sanity'
 import { GrOrderedList } from 'react-icons/gr'
 
 export default {
