@@ -14,15 +14,16 @@
     "deploy": "npm run deploy:studio && npm run deploy:graphql",
     "deploy:studio": "sanity deploy",
     "deploy:graphql": "sanity graphql deploy --no-playground --force",
+    "dev": "sanity dev",
     "start": "sanity start",
     "build": "sanity build",
-    "dev": "sanity build",
     "purge-assets": "sanity exec scripts/purge-unused-assets.js --with-user-token"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
+    "@sanity/vision": "^3.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.7.1",
