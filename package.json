@@ -27,7 +27,7 @@
     "react-dom": "18.2.0",
     "react-icons": "4.8.0",
     "sanity": "3.9.0",
-    "styled-components": "5.3.9",
+    "styled-components": "5.3.10",
     "typescript": "5.0.4"
   },
   "devDependencies": {
