@@ -28,7 +28,7 @@
     "react-icons": "5.0.1",
     "sanity": "3.35.1",
     "styled-components": "5.3.11",
-    "typescript": "5.4.2"
+    "typescript": "5.4.3"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "7.3.1",
