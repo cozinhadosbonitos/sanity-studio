@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write .",
-    "lint:eslint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
+    "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check .",
     "lint:tsc": "tsc",
     "deploy": "npm run deploy:studio && npm run deploy:graphql",
