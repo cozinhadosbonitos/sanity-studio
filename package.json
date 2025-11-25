@@ -49,8 +49,7 @@
   },
   "renovate": {
     "extends": [
-      "github>browniebroke/renovate-configs",
-      "github>browniebroke/renovate-configs:eslint-prettier"
+      "github>browniebroke/renovate-configs:js-app"
     ]
   }
 }
