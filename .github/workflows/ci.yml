@@ -37,7 +37,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Install Deps
-        run: npm i
+        run: npm ci
       - name: Deploy
         run: npm run deploy
         env:
