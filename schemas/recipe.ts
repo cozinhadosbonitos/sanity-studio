@@ -136,6 +136,12 @@ export default {
       validation: (rule: Rule) => rule.required(),
     },
     {
+      name: 'source',
+      title: 'Source',
+      type: 'url',
+      description: 'External link to where the recipe is from.',
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'array',
