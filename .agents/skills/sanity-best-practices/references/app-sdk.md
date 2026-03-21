@@ -168,13 +168,13 @@ const handle = {
 
 ## Hook Selection
 
-| Hook | Use Case | Returns |
-|------|----------|---------|
-| `useDocuments` | List of documents (infinite scroll) | Document handles |
-| `usePaginatedDocuments` | Paginated lists with page controls | Document handles |
-| `useDocument` | Single document, real-time editing | Full document or field |
-| `useDocumentProjection` | Specific fields, display only | Projected data |
-| `useQuery` | Complex GROQ queries (use sparingly) | Raw query results |
+| Hook                    | Use Case                             | Returns                |
+| ----------------------- | ------------------------------------ | ---------------------- |
+| `useDocuments`          | List of documents (infinite scroll)  | Document handles       |
+| `usePaginatedDocuments` | Paginated lists with page controls   | Document handles       |
+| `useDocument`           | Single document, real-time editing   | Full document or field |
+| `useDocumentProjection` | Specific fields, display only        | Projected data         |
+| `useQuery`              | Complex GROQ queries (use sparingly) | Raw query results      |
 
 ---
 
@@ -455,8 +455,8 @@ The App SDK provides hooks and data stores. You bring:
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Safari dev issues | Use Chrome or Firefox during development |
-| Port 3333 in use | `npm run dev -- --port 3334` |
-| Auth errors | `npx sanity@latest logout && npx sanity@latest login` |
+| Issue             | Solution                                              |
+| ----------------- | ----------------------------------------------------- |
+| Safari dev issues | Use Chrome or Firefox during development              |
+| Port 3333 in use  | `npm run dev -- --port 3334`                          |
+| Auth errors       | `npx sanity@latest logout && npx sanity@latest login` |

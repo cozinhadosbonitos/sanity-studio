@@ -89,7 +89,12 @@ Create an injectable service wrapping `@sanity/client` and `@sanity/image-url`:
 
 ```typescript
 import { Injectable } from '@angular/core'
-import { createClient, type ClientReturn, type QueryParams, type SanityClient } from '@sanity/client'
+import {
+  createClient,
+  type ClientReturn,
+  type QueryParams,
+  type SanityClient,
+} from '@sanity/client'
 import imageUrlBuilder, { type ImageUrlBuilder } from '@sanity/image-url'
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
 import { environment } from '../environments/environment'
@@ -110,7 +115,10 @@ export class SanityService {
   }
 
   // ClientReturn resolves TypeGen's declaration-merged overloads for defineQuery strings
-  fetch<Query extends string>(query: Query, params?: QueryParams): Promise<ClientReturn<Query>> {
+  fetch<Query extends string>(
+    query: Query,
+    params?: QueryParams
+  ): Promise<ClientReturn<Query>> {
     return this.client.fetch(query, params)
   }
 
@@ -179,7 +187,9 @@ import { SanityService } from '../sanity.service'
 
 const POST_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug][0]`)
 
-@Component({ /* ... */ })
+@Component({
+  /* ... */
+})
 export default class PostComponent {
   slug = input.required<string>()
   private sanity = inject(SanityService)
@@ -204,7 +214,9 @@ import { SanityService } from '../sanity.service'
 
 const POSTS_QUERY = defineQuery(`*[_type == "post"] | order(publishedAt desc)`)
 
-@Component({ /* ... */ })
+@Component({
+  /* ... */
+})
 export class HomeComponent {
   private sanity = inject(SanityService)
   posts = toSignal(from(this.sanity.fetch(POSTS_QUERY)), { initialValue: [] })
@@ -215,11 +227,11 @@ export class HomeComponent {
 
 ### Choosing a pattern
 
-| Pattern | Angular Version | Reactivity | Best For |
-|---|---|---|---|
-| `resource` | 19+ | Signal-based, auto re-fetch | New projects, dynamic queries |
-| `rxResource` | 19+ | RxJS + signals | Teams using RxJS operators |
-| `toSignal` | 17+ | One-shot conversion | Static queries, legacy apps |
+| Pattern      | Angular Version | Reactivity                  | Best For                      |
+| ------------ | --------------- | --------------------------- | ----------------------------- |
+| `resource`   | 19+             | Signal-based, auto re-fetch | New projects, dynamic queries |
+| `rxResource` | 19+             | RxJS + signals              | Teams using RxJS operators    |
+| `toSignal`   | 17+             | One-shot conversion         | Static queries, legacy apps   |
 
 ## 4. Routing
 
@@ -231,9 +243,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router'
 import { routes } from './app.routes'
 
 export const appConfig = {
-  providers: [
-    provideRouter(routes, withComponentInputBinding()),
-  ],
+  providers: [provideRouter(routes, withComponentInputBinding())],
 }
 ```
 
@@ -273,7 +283,11 @@ export class PortableTextToHTMLPipe implements PipeTransform {
   private components: PortableTextComponents = {
     types: {
       image: ({ value }) => {
-        const url = this.sanity.getImageUrlBuilder(value).width(800).auto('format').url()
+        const url = this.sanity
+          .getImageUrlBuilder(value)
+          .width(800)
+          .auto('format')
+          .url()
         return `<img src="${url}" alt="${value.alt || ''}" loading="lazy" />`
       },
     },
@@ -315,7 +329,10 @@ import { SanityService } from '../sanity.service'
 export class SanityImagePipe implements PipeTransform {
   private sanity = inject(SanityService)
 
-  transform(value: SanityImageSource | undefined, width?: number): string | null {
+  transform(
+    value: SanityImageSource | undefined,
+    width?: number
+  ): string | null {
     if (!value) return null
     const builder = this.sanity.getImageUrlBuilder(value)
     if (width) return builder.width(width).auto('format').url()
@@ -328,10 +345,19 @@ Combine with Angular's `NgOptimizedImage` for LCP images:
 
 ```html
 <!-- Priority image with NgOptimizedImage -->
-<img [ngSrc]="post.mainImage | sanityImage: 1200" width="1200" height="630" priority />
+<img
+  [ngSrc]="post.mainImage | sanityImage: 1200"
+  width="1200"
+  height="630"
+  priority
+/>
 
 <!-- Lazy-loaded image -->
-<img [src]="post.mainImage | sanityImage: 600" [alt]="post.mainImage.alt" loading="lazy" />
+<img
+  [src]="post.mainImage | sanityImage: 600"
+  [alt]="post.mainImage.alt"
+  loading="lazy"
+/>
 ```
 
 ❌ **Bad:** Fetching full-size images without width constraints.
@@ -393,9 +419,9 @@ When building with Sanity, leverage these Angular 19+ features:
 
 ```html
 @for (post of posts.value(); track post._id) {
-  <app-post-card [post]="post" />
+<app-post-card [post]="post" />
 } @empty {
-  <p>No posts found.</p>
+<p>No posts found.</p>
 }
 ```
 
@@ -403,9 +429,9 @@ When building with Sanity, leverage these Angular 19+ features:
 
 ```html
 @defer (on viewport) {
-  <app-comments [postId]="post._id" />
+<app-comments [postId]="post._id" />
 } @placeholder {
-  <p>Scroll to see comments…</p>
+<p>Scroll to see comments…</p>
 }
 ```
 
@@ -422,20 +448,17 @@ import { provideServerRendering } from '@angular/platform-server'
 import { provideClientHydration } from '@angular/platform-browser'
 
 export const serverConfig = {
-  providers: [
-    provideServerRendering(),
-    provideClientHydration(),
-  ],
+  providers: [provideServerRendering(), provideClientHydration()],
 }
 ```
 
 Key considerations for Sanity + Angular SSR:
 
-| Feature | Details |
-|---|---|
-| **Hydration** | `provideClientHydration()` preserves server-rendered DOM. The client reuses it instead of re-rendering. |
+| Feature                 | Details                                                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hydration**           | `provideClientHydration()` preserves server-rendered DOM. The client reuses it instead of re-rendering.                               |
 | **HTTP Transfer Cache** | Only works with Angular's `HttpClient`. Since `@sanity/client` uses its own HTTP transport, use `TransferState` manually (see below). |
-| **Prerendering** | Use `getPrerenderParams` in route config to generate static pages at build time. |
+| **Prerendering**        | Use `getPrerenderParams` in route config to generate static pages at build time.                                                      |
 
 ### Transfer State for `@sanity/client`
 
@@ -494,8 +517,15 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
     async getPrerenderParams() {
       // Fetch all slugs from Sanity at build time
-      const client = createClient({ projectId: '...', dataset: '...', apiVersion: '...', useCdn: true })
-      const slugs = await client.fetch<string[]>(`*[_type == "post"].slug.current`)
+      const client = createClient({
+        projectId: '...',
+        dataset: '...',
+        apiVersion: '...',
+        useCdn: true,
+      })
+      const slugs = await client.fetch<string[]>(
+        `*[_type == "post"].slug.current`
+      )
       return slugs.map((slug) => ({ slug }))
     },
   },
@@ -536,7 +566,11 @@ export class SanityService {
     })
   }
 
-  fetch<Query extends string>(query: Query, params?: QueryParams, preview = false): Promise<ClientReturn<Query>> {
+  fetch<Query extends string>(
+    query: Query,
+    params?: QueryParams,
+    preview = false
+  ): Promise<ClientReturn<Query>> {
     const client = preview ? this.previewClient : this.client
     return client.fetch(query, params)
   }
@@ -553,13 +587,13 @@ The community library `@limitless-angular/sanity` provides experimental Visual E
 
 Common errors when integrating Angular with Sanity:
 
-| Error | Cause | Solution |
-|---|---|---|
-| `401 Unauthorized` | Invalid or missing API token | Verify token in Sanity management console. Ensure it has correct permissions. |
-| `403 Forbidden` | CORS origin not allowed | Add your Angular dev/production URL to CORS origins in `sanity.io/manage`. |
-| `422 Invalid query` | GROQ syntax error | Test queries in Vision plugin or Sanity's GROQ playground. See `groq.md`. |
-| Hydration mismatch | Conditional rendering based on platform | Use `@defer` or `afterNextRender()` instead of `isPlatformBrowser()` checks. |
-| Empty response | Missing dataset or wrong `apiVersion` | Verify environment config. Use a date-based `apiVersion` (e.g., `'2025-05-01'`). |
-| Images not loading | Missing `@sanity/image-url` setup | Ensure `getImageUrlBuilder` is called with a valid image reference. See `image.md`. |
+| Error               | Cause                                   | Solution                                                                            |
+| ------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
+| `401 Unauthorized`  | Invalid or missing API token            | Verify token in Sanity management console. Ensure it has correct permissions.       |
+| `403 Forbidden`     | CORS origin not allowed                 | Add your Angular dev/production URL to CORS origins in `sanity.io/manage`.          |
+| `422 Invalid query` | GROQ syntax error                       | Test queries in Vision plugin or Sanity's GROQ playground. See `groq.md`.           |
+| Hydration mismatch  | Conditional rendering based on platform | Use `@defer` or `afterNextRender()` instead of `isPlatformBrowser()` checks.        |
+| Empty response      | Missing dataset or wrong `apiVersion`   | Verify environment config. Use a date-based `apiVersion` (e.g., `'2025-05-01'`).    |
+| Images not loading  | Missing `@sanity/image-url` setup       | Ensure `getImageUrlBuilder` is called with a valid image reference. See `image.md`. |
 
 For GROQ query patterns and best practices, see `groq.md`. For schema design, see `schema.md`.

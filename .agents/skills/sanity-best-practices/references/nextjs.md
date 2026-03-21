@@ -22,16 +22,20 @@ Jump to the section that matches the task instead of reading this guide end-to-e
 ## 1. Architecture Patterns
 
 ### Option A: Embedded Studio (Recommended)
+
 **Best for:** Most Next.js projects. Unified deployment, simpler setup.
 
 The Studio lives inside your Next.js app at `/app/studio/[[...tool]]/page.tsx`.
+
 - **Config:** `sanity.config.ts` lives in the project root.
 - See `project-structure.md` rule for detailed structure.
 
 ### Option B: Monorepo (Alternative)
+
 **Best for:** Separation of concerns, multiple frontends, or strict dependency isolation.
 
 The Studio and Next.js app live in separate folders:
+
 ```
 apps/
 ├── studio/     # Sanity Studio (standalone)
@@ -53,7 +57,7 @@ import { client } from './client'
 
 export const { sanityFetch, SanityLive } = defineLive({
   client: client.withConfig({
-    apiVersion: '2026-02-01'
+    apiVersion: '2026-02-01',
   }),
   serverToken: process.env.SANITY_API_READ_TOKEN,
   browserToken: process.env.SANITY_API_READ_TOKEN,
@@ -90,11 +94,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 ### When to Use Manual Caching
 
-| Scenario | Approach |
-|----------|----------|
-| Real-time updates, Visual Editing | `defineLive` (default) |
-| Static marketing pages, rarely updated | Time-based revalidation |
-| Blog posts, products with frequent edits | Tag-based revalidation |
+| Scenario                                 | Approach                        |
+| ---------------------------------------- | ------------------------------- |
+| Real-time updates, Visual Editing        | `defineLive` (default)          |
+| Static marketing pages, rarely updated   | Time-based revalidation         |
+| Blog posts, products with frequent edits | Tag-based revalidation          |
 | Critical accuracy (stock levels, prices) | Path-based + short revalidation |
 
 ### Debugging: Enable Fetch Logging
@@ -109,10 +113,11 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-};
+}
 ```
 
 Console output shows cache status:
+
 ```text
 GET /posts 200 in 39ms
  │ GET https://...apicdn.sanity.io/... 200 in 5ms (cache hit)
@@ -120,19 +125,18 @@ GET /posts 200 in 39ms
 
 ### Sanity CDN vs API
 
-| Setting | Speed | Freshness | Use When |
-|---------|-------|-----------|----------|
-| `useCdn: true` | Fast | May have brief delay | Default for all runtime fetches |
-| `useCdn: false` | Slower | Guaranteed fresh | `generateStaticParams`, webhooks |
+| Setting         | Speed  | Freshness            | Use When                         |
+| --------------- | ------ | -------------------- | -------------------------------- |
+| `useCdn: true`  | Fast   | May have brief delay | Default for all runtime fetches  |
+| `useCdn: false` | Slower | Guaranteed fresh     | `generateStaticParams`, webhooks |
 
 Override per-request:
+
 ```typescript
 // For static generation, use API directly
 export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({ useCdn: false })
-    .fetch(SLUGS_QUERY);
-  return slugs;
+  const slugs = await client.withConfig({ useCdn: false }).fetch(SLUGS_QUERY)
+  return slugs
 }
 ```
 
@@ -148,17 +152,17 @@ export async function sanityFetch<const QueryString extends string>({
   revalidate = 60,
   tags = [],
 }: {
-  query: QueryString;
-  params?: QueryParams;
-  revalidate?: number | false;
-  tags?: string[];
+  query: QueryString
+  params?: QueryParams
+  revalidate?: number | false
+  tags?: string[]
 }) {
   return client.fetch(query, params, {
     next: {
       revalidate: tags.length ? false : revalidate,
       tags,
     },
-  });
+  })
 }
 ```
 
@@ -170,7 +174,7 @@ Simple and predictable. Good for content that changes infrequently.
 const posts = await sanityFetch({
   query: POSTS_QUERY,
   revalidate: 3600, // Revalidate every hour
-});
+})
 ```
 
 **The "Typo Problem":** With time-based only, content authors may wait up to an hour to see changes. Use webhooks for instant updates.
@@ -180,13 +184,14 @@ const posts = await sanityFetch({
 Surgically revalidate specific routes when documents change.
 
 **1. Create API Route:**
+
 ```typescript
 // src/app/api/revalidate/path/route.ts
-import { revalidatePath } from 'next/cache';
-import { type NextRequest, NextResponse } from 'next/server';
-import { parseBody } from 'next-sanity/webhook';
+import { revalidatePath } from 'next/cache'
+import { type NextRequest, NextResponse } from 'next/server'
+import { parseBody } from 'next-sanity/webhook'
 
-type WebhookPayload = { path?: string };
+type WebhookPayload = { path?: string }
 
 export async function POST(req: NextRequest) {
   try {
@@ -194,24 +199,25 @@ export async function POST(req: NextRequest) {
       req,
       process.env.SANITY_REVALIDATE_SECRET,
       true // Add delay to allow CDN to update
-    );
+    )
 
     if (!isValidSignature) {
-      return new Response('Invalid signature', { status: 401 });
+      return new Response('Invalid signature', { status: 401 })
     }
     if (!body?.path) {
-      return new Response('Missing path', { status: 400 });
+      return new Response('Missing path', { status: 400 })
     }
 
-    revalidatePath(body.path);
-    return NextResponse.json({ revalidated: body.path });
+    revalidatePath(body.path)
+    return NextResponse.json({ revalidated: body.path })
   } catch (err) {
-    return new Response((err as Error).message, { status: 500 });
+    return new Response((err as Error).message, { status: 500 })
   }
 }
 ```
 
 **2. Create GROQ-Powered Webhook:**
+
 - URL: `https://yoursite.com/api/revalidate/path`
 - Filter: `_type in ["post"]`
 - Projection: `{ "path": "/posts/" + slug.current }`
@@ -222,29 +228,31 @@ export async function POST(req: NextRequest) {
 "Update once, revalidate everywhere" — best for referenced content.
 
 **1. Tag Your Queries:**
+
 ```typescript
 // Posts index - revalidate when ANY post, author, or category changes
 const posts = await sanityFetch({
   query: POSTS_QUERY,
   tags: ['post', 'author', 'category'],
-});
+})
 
 // Individual post - more granular, includes slug-specific tag
 const post = await sanityFetch({
   query: POST_QUERY,
   params,
   tags: [`post:${params.slug}`, 'author', 'category'],
-});
+})
 ```
 
 **2. Create API Route:**
+
 ```typescript
 // src/app/api/revalidate/tag/route.ts
-import { revalidateTag } from 'next/cache';
-import { type NextRequest, NextResponse } from 'next/server';
-import { parseBody } from 'next-sanity/webhook';
+import { revalidateTag } from 'next/cache'
+import { type NextRequest, NextResponse } from 'next/server'
+import { parseBody } from 'next-sanity/webhook'
 
-type WebhookPayload = { tags: string[] };
+type WebhookPayload = { tags: string[] }
 
 export async function POST(req: NextRequest) {
   try {
@@ -252,31 +260,32 @@ export async function POST(req: NextRequest) {
       req,
       process.env.SANITY_REVALIDATE_SECRET,
       true
-    );
+    )
 
     if (!isValidSignature) {
-      return new Response('Invalid signature', { status: 401 });
+      return new Response('Invalid signature', { status: 401 })
     }
     if (!Array.isArray(body?.tags) || !body.tags.length) {
-      return new Response('Missing tags', { status: 400 });
+      return new Response('Missing tags', { status: 400 })
     }
 
-    body.tags.forEach((tag) => revalidateTag(tag));
-    return NextResponse.json({ revalidated: body.tags });
+    body.tags.forEach((tag) => revalidateTag(tag))
+    return NextResponse.json({ revalidated: body.tags })
   } catch (err) {
-    return new Response((err as Error).message, { status: 500 });
+    return new Response((err as Error).message, { status: 500 })
   }
 }
 ```
 
 **3. Create GROQ-Powered Webhook:**
+
 - URL: `https://yoursite.com/api/revalidate/tag`
 - Filter: `_type in ["post", "author", "category"]`
 - Projection: `{ "tags": [_type, _type + ":" + slug.current] }`
 
 ### Stale Data After Webhook?
 
-Webhooks fire *before* Sanity CDN updates. If you see stale data:
+Webhooks fire _before_ Sanity CDN updates. If you see stale data:
 
 1. **Add delay** — Pass `true` as third arg to `parseBody`
 2. **Or bypass CDN** — Set `useCdn: false` in client config (use sparingly)
@@ -311,7 +320,7 @@ export async function generateMetadata({ params }) {
   const { data } = await sanityFetch({
     query: SEO_QUERY,
     params: await params,
-    stega: false // 👈 Critical for SEO
+    stega: false, // 👈 Critical for SEO
   })
   return { title: data?.title }
 }
@@ -326,7 +335,7 @@ export async function generateStaticParams() {
   const { data } = await sanityFetch({
     query: SLUGS_QUERY,
     perspective: 'published', // 👈 No drafts
-    stega: false
+    stega: false,
   })
   return data
 }
@@ -370,12 +379,12 @@ export const { GET } = defineEnableDraftMode({
 
 Use `notFound()` for missing documents. Common errors:
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| 401 Unauthorized | Invalid/missing token | Check `SANITY_API_READ_TOKEN` |
-| 403 Forbidden | CORS not configured | Add URL to CORS origins |
-| Query syntax error | Invalid GROQ | Test in Vision plugin first |
-| Empty result | Wrong filter/params | Log params, check `_type` spelling |
+| Error              | Cause                 | Solution                           |
+| ------------------ | --------------------- | ---------------------------------- |
+| 401 Unauthorized   | Invalid/missing token | Check `SANITY_API_READ_TOKEN`      |
+| 403 Forbidden      | CORS not configured   | Add URL to CORS origins            |
+| Query syntax error | Invalid GROQ          | Test in Vision plugin first        |
+| Empty result       | Wrong filter/params   | Log params, check `_type` spelling |
 
 ```typescript
 import { notFound } from 'next/navigation'
@@ -496,6 +505,7 @@ export const PTE_IMAGE_PRESENTATION_QUERY = defineQuery(`
 For listing pages with many entries, use offset-based pagination with a count query.
 
 ### Queries
+
 ```typescript
 // Paginated listing
 export const ARTICLES_QUERY = defineQuery(`
@@ -503,15 +513,16 @@ export const ARTICLES_QUERY = defineQuery(`
   | order(date desc) [$start...$end] {
     _id, title, "slug": slug.current, date
   }
-`);
+`)
 
 // Total count for pagination UI
 export const ARTICLES_COUNT_QUERY = defineQuery(`
   count(*[_type == "article" && defined(slug.current)])
-`);
+`)
 ```
 
 ### Listing Page
+
 ```typescript
 const ENTRIES_PER_PAGE = 10;
 

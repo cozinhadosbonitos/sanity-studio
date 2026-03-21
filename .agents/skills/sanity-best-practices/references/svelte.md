@@ -1,5 +1,5 @@
 ---
-title: "SvelteKit & Sanity Integration Rules"
+title: 'SvelteKit & Sanity Integration Rules'
 description: Integration guide for SvelteKit with Sanity, including @sanity/svelte-loader, Visual Editing, and Preview Mode.
 ---
 
@@ -8,16 +8,23 @@ description: Integration guide for SvelteKit with Sanity, including @sanity/svel
 ## 1. Setup & Configuration
 
 ### Installation
+
 ```bash
 npm install @sanity/svelte-loader @sanity/client @sanity/visual-editing
 ```
 
 ### Client Configuration (`src/lib/sanity.ts`)
+
 Define the client with `stega` enabled for the studio URL.
 
 ```typescript
 import { createClient } from '@sanity/client'
-import { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, PUBLIC_SANITY_API_VERSION, PUBLIC_SANITY_STUDIO_URL } from '$env/static/public'
+import {
+  PUBLIC_SANITY_PROJECT_ID,
+  PUBLIC_SANITY_DATASET,
+  PUBLIC_SANITY_API_VERSION,
+  PUBLIC_SANITY_STUDIO_URL,
+} from '$env/static/public'
 
 export const client = createClient({
   projectId: PUBLIC_SANITY_PROJECT_ID,
@@ -31,6 +38,7 @@ export const client = createClient({
 ```
 
 ### Server Client (`src/lib/server/sanity.ts`)
+
 Use the read token for fetching preview content.
 
 ```typescript
@@ -58,6 +66,7 @@ export const handle = createRequestHandler()
 ```
 
 **Update `app.d.ts` types:**
+
 ```typescript
 import type { LoaderLocals } from '@sanity/svelte-loader'
 
@@ -73,6 +82,7 @@ declare global {
 Pass the preview state from the server to the client via the root layout.
 
 **Server Layout (`src/routes/+layout.server.ts`):**
+
 ```typescript
 import type { LayoutServerLoad } from './$types'
 
@@ -82,6 +92,7 @@ export const load: LayoutServerLoad = ({ locals: { preview } }) => {
 ```
 
 **Client Layout (`src/routes/+layout.ts`):**
+
 ```typescript
 import { setPreviewing } from '@sanity/svelte-loader'
 import type { LayoutLoad } from './$types'
@@ -99,7 +110,10 @@ Use `locals.loadQuery` in your page server loaders.
 // src/routes/[slug]/+page.server.ts
 import type { PageServerLoad } from './$types'
 
-export const load: PageServerLoad = async ({ locals: { loadQuery }, params }) => {
+export const load: PageServerLoad = async ({
+  locals: { loadQuery },
+  params,
+}) => {
   const initial = await loadQuery(QUERY, params)
   return { initial }
 }
@@ -108,6 +122,7 @@ export const load: PageServerLoad = async ({ locals: { loadQuery }, params }) =>
 ## 5. Real-time Preview & Visual Editing
 
 ### Component Usage (`useQuery`)
+
 Use `useQuery` in your Svelte component to handle real-time updates.
 
 ```svelte
@@ -135,6 +150,7 @@ Use `useQuery` in your Svelte component to handle real-time updates.
 ```
 
 ### Enable Visual Editing (`+layout.svelte`)
+
 Enable Visual Editing and Live Mode in your root layout.
 
 ```svelte

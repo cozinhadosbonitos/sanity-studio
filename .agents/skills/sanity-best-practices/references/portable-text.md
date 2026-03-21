@@ -1,5 +1,5 @@
 ---
-title: "Sanity Portable Text Rules"
+title: 'Sanity Portable Text Rules'
 description: Portable Text (Rich Text) rendering and custom component creation for React/Next.js.
 ---
 
@@ -10,6 +10,7 @@ Portable Text is Sanity's rich text format, used for content like article bodies
 **Note:** For page-level layout blocks (`pageBuilder[]`), see `page-builder.md`.
 
 ## 1. The Component
+
 Use the `PortableText` component from `next-sanity` (or `@portabletext/react`).
 
 ```typescript
@@ -22,6 +23,7 @@ export function Content({ value }: { value: any }) {
 ```
 
 ## 2. Custom Components (`components` prop)
+
 **Always** define a typed components object to handle custom blocks, marks, and list styles.
 
 ```typescript
@@ -63,11 +65,11 @@ const components: PortableTextComponents = {
 
 Portable Text has three types of custom components, each with different patterns:
 
-| Type | Examples | Pattern |
-|------|----------|---------|
-| **Block styles** | h1, h2, blockquote, normal | Text blocks with `children` prop |
+| Type             | Examples                   | Pattern                           |
+| ---------------- | -------------------------- | --------------------------------- |
+| **Block styles** | h1, h2, blockquote, normal | Text blocks with `children` prop  |
 | **Custom types** | image, video, callToAction | Non-text blocks with `value` prop |
-| **Marks** | link, strong, productRef | Inline annotations wrapping text |
+| **Marks**        | link, strong, productRef   | Inline annotations wrapping text  |
 
 ## 4. Creating Block Style Components
 
@@ -130,7 +132,11 @@ export const pteImageBlock = defineType({
   fields: [
     defineField({ name: 'image', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'caption', type: 'string' }),
-    defineField({ name: 'alt', type: 'string', validation: (r) => r.required() }),
+    defineField({
+      name: 'alt',
+      type: 'string',
+      validation: (r) => r.required(),
+    }),
   ],
   preview: {
     select: { title: 'caption', media: 'image' },
@@ -145,9 +151,9 @@ defineField({
   name: 'body',
   type: 'array',
   of: [
-    { type: 'block' },      // Standard text
-    { type: 'pteImage' },   // Custom image block
-    { type: 'pteVideo' },   // Custom video block
+    { type: 'block' }, // Standard text
+    { type: 'pteImage' }, // Custom image block
+    { type: 'pteVideo' }, // Custom video block
   ],
 })
 ```
@@ -215,7 +221,11 @@ defineField({
             title: 'Link',
             fields: [
               { name: 'href', type: 'url', title: 'URL' },
-              { name: 'openInNewTab', type: 'boolean', title: 'Open in new tab' },
+              {
+                name: 'openInNewTab',
+                type: 'boolean',
+                title: 'Open in new tab',
+              },
             ],
           },
           {
@@ -292,7 +302,13 @@ Then in your component:
 'use client'
 import { usePresentationQuery } from 'next-sanity/hooks'
 
-export function PteImageComponent({ value, documentId }: { value: any; documentId?: string }) {
+export function PteImageComponent({
+  value,
+  documentId,
+}: {
+  value: any
+  documentId?: string
+}) {
   const { data } = usePresentationQuery({
     query: PTE_IMAGE_PRESENTATION_QUERY,
     params: { documentId, blockKey: value._key },
@@ -332,12 +348,14 @@ When querying documents with Portable Text, expand custom blocks:
 When Visual Editing is enabled, text content contains invisible stega characters for click-to-edit functionality.
 
 **For text rendering:** Let stega characters pass through—they enable overlays:
+
 ```typescript
 // Good - stega preserved for click-to-edit
 <h2>{children}</h2>
 ```
 
 **For logic/comparisons:** Clean the values first:
+
 ```typescript
 import { stegaClean } from '@sanity/client/stega'
 
@@ -347,14 +365,15 @@ if (cleanedStyle === 'h2') { ... }
 ```
 
 ## 10. Type Safety
-When using TypeGen, the Portable Text value usually has a complex generated type. You can often use `any` or `PortableTextBlock[]` for the *prop*, but cast specific blocks if needed.
+
+When using TypeGen, the Portable Text value usually has a complex generated type. You can often use `any` or `PortableTextBlock[]` for the _prop_, but cast specific blocks if needed.
 
 ```typescript
-import { PortableTextBlock } from "next-sanity";
+import { PortableTextBlock } from 'next-sanity'
 
 type Props = {
-  value: PortableTextBlock[];
-};
+  value: PortableTextBlock[]
+}
 ```
 
 ## 11. Best Practices

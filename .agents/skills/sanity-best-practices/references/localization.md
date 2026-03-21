@@ -23,19 +23,21 @@ Use the contents list to jump directly to the localization pattern you need.
 ## 1. Guiding Principles
 
 ### Priority: Easy Authoring Experience
+
 The structured nature of Sanity schemas and GROQ make it easy to parse localized content for your frontend. **Never** let frontend architecture dictate your localization approach — prioritize the editor experience.
 
 ### Avoid Content Duplication
+
 Don't create nearly identical copies with slight differences (e.g., US vs British English). Use Portable Text marks and custom blocks to swap out words or sections as needed.
 
 ## 2. Terminology
 
-| Term | Definition |
-|------|------------|
-| **Internationalization (i18n)** | Designing your frontend to support multiple languages |
-| **Localization** | Adapting content for a specific language/region |
-| **Language Tag** | Code like `en`, `en-US`, `zh-Hant-TW` (per IETF RFC 5646) |
-| **Locale** | A language tag with region info (e.g., `en-US`) |
+| Term                            | Definition                                                |
+| ------------------------------- | --------------------------------------------------------- |
+| **Internationalization (i18n)** | Designing your frontend to support multiple languages     |
+| **Localization**                | Adapting content for a specific language/region           |
+| **Language Tag**                | Code like `en`, `en-US`, `zh-Hant-TW` (per IETF RFC 5646) |
+| **Locale**                      | A language tag with region info (e.g., `en-US`)           |
 
 ## 3. Create a Locale Content Type
 
@@ -51,9 +53,22 @@ export const localeType = defineType({
   icon: TranslateIcon,
   type: 'document',
   fields: [
-    defineField({ name: 'name', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'tag', type: 'string', description: 'IANA tag (en, en-US)', validation: (r) => r.required() }),
-    defineField({ name: 'fallback', type: 'reference', to: [{ type: 'locale' }] }),
+    defineField({
+      name: 'name',
+      type: 'string',
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'tag',
+      type: 'string',
+      description: 'IANA tag (en, en-US)',
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'fallback',
+      type: 'reference',
+      to: [{ type: 'locale' }],
+    }),
     defineField({ name: 'default', type: 'boolean' }),
   ],
   preview: { select: { title: 'name', subtitle: 'tag' } },
@@ -64,12 +79,13 @@ export const localeType = defineType({
 
 ## 4. Choose Your Localization Method
 
-| Content Type | Examples | Recommended Method |
-|--------------|----------|-------------------|
-| **Structured** (things) | Products, People, Locations, Categories | Field-level |
-| **Presentation** (UI) | Pages, Posts, Components | Document-level |
+| Content Type            | Examples                                | Recommended Method |
+| ----------------------- | --------------------------------------- | ------------------ |
+| **Structured** (things) | Products, People, Locations, Categories | Field-level        |
+| **Presentation** (UI)   | Pages, Posts, Components                | Document-level     |
 
 ### Decision Questions
+
 1. **Are fields shared across languages?** → Field-level
 2. **Should changes be "global" for all locales?** (e.g., reordering components) → Field-level
 3. **Is content mostly the same except regional differences?** → Field-level with PT marks
@@ -84,6 +100,7 @@ npm install @sanity/document-internationalization
 ```
 
 ### Configuration
+
 ```typescript
 // sanity.config.ts
 import { documentInternationalization } from '@sanity/document-internationalization'
@@ -102,6 +119,7 @@ export default defineConfig({
 ```
 
 ### Add Language Field to Schema
+
 ```typescript
 // In each schema type listed in schemaTypes
 defineField({
@@ -113,6 +131,7 @@ defineField({
 ```
 
 ### Initial Value Templates
+
 Pre-set language when creating documents outside the translation UI:
 
 ```typescript
@@ -125,9 +144,10 @@ export default defineConfig({
     newDocumentOptions: (prev, { creationContext }) => {
       // Filter to only show base language in "New document" menu
       // The plugin handles creating translations from there
-      return prev.filter((item) =>
-        !['post', 'page'].includes(item.templateId) ||
-        item.parameters?.language === 'en'
+      return prev.filter(
+        (item) =>
+          !['post', 'page'].includes(item.templateId) ||
+          item.parameters?.language === 'en'
       )
     },
   },
@@ -138,14 +158,15 @@ export default defineConfig({
       id: 'post-en',
       title: 'Post (English)',
       schemaType: 'post',
-      parameters: [{name: 'language', type: 'string'}],
-      value: ({language}) => ({language}),
+      parameters: [{ name: 'language', type: 'string' }],
+      value: ({ language }) => ({ language }),
     }),
   ],
 })
 ```
 
 ### Querying Translated Documents
+
 ```groq
 // Get document in specific language
 *[_type == "post" && language == $locale && slug.current == $slug][0]
@@ -314,6 +335,7 @@ npm install sanity-plugin-internationalized-array
 ```
 
 ### Configuration
+
 ```typescript
 // sanity.config.ts
 import { internationalizedArray } from 'sanity-plugin-internationalized-array'
@@ -330,6 +352,7 @@ export default defineConfig({
 ```
 
 ### Usage in Schema
+
 ```typescript
 // The plugin creates types like `internationalizedArrayString`
 defineField({
@@ -339,6 +362,7 @@ defineField({
 ```
 
 ### Portable Text Localization
+
 Create a reusable block content type, then add it to `fieldTypes`:
 
 ```typescript
@@ -366,6 +390,7 @@ defineField({
 ```
 
 ### Querying Internationalized Arrays
+
 ```groq
 // Get specific locale value
 *[_type == "author"][0] {
@@ -424,6 +449,7 @@ npm install @sanity/language-filter
 ## 10. Frontend URL Best Practices
 
 **Always include locale in the URL** for SEO:
+
 - `yoursite.com/en/my-page` → `yoursite.com/fr/my-page`
 - `yoursite.com/my-page` → redirects to default locale
 
