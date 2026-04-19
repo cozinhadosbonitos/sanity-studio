@@ -14,15 +14,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-node@v6.3.0
         with:
           node-version-file: '.nvmrc'
       - run: npm i
       - run: npm run build
 
   lint:
-    uses: browniebroke/github-actions/.github/workflows/ts-lint.yml@v1
+    uses: browniebroke/github-actions/.github/workflows/ts-lint.yml@v1.23.0
 
   deploy:
     runs-on: ubuntu-latest
@@ -32,8 +32,8 @@ jobs:
       - build
       - lint
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-node@v6.3.0
         with:
           node-version-file: '.nvmrc'
       - name: Install Deps
