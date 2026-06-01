@@ -31,6 +31,25 @@ Use `WebFetch` with a prompt that extracts:
 - Course type — must be one of: `appetizer`, `dessert`, `main`, `snack`, `starter`
 - Full ingredient list, each as `{ display: "<quantity + descriptor>", food: "<canonical food name>" }` — `food` is the bare ingredient noun used to look up/create a `food` document (e.g. "Asparagus", "Olive oil", "Salad onions")
 - Numbered cooking steps as an array of strings
+- 3-8 tags (see "Tags" below for conventions)
+
+## Tags
+
+Every imported recipe must include 3-8 tags. Pick a mix from these categories — don't just list ingredients:
+
+- **Key ingredients** (the headline 1-3): `lamb`, `asparagus`, `quinoa`, `salmon`, `halloumi`
+- **Dish form / technique**: `risotto`, `pasta`, `traybake`, `one-pot`, `one-pan`, `baked`, `quiche`, `tagine`
+- **Cuisine** (capitalised proper nouns): `Italian`, `Mediterranean`, `Moroccan`
+- **Dietary**: `vegetarian`, `vegan`, `plant-based`, `gluten-free`
+- **Occasion / feel**: `quick`, `weeknight`, `easy`, `comfort food`, `light`, `healthy`, `budget-friendly`
+- **Season** (when clearly seasonal): `spring`, `summer`, `autumn`, `winter`
+
+Conventions:
+
+- Lowercase except cuisines/proper nouns (`Italian`, not `italian`).
+- Hyphenate compound modifiers (`one-pot`, `plant-based`, `gluten-free`).
+- Don't duplicate `courseType` (don't tag `main` if `courseType` is already `main`).
+- Don't tag both `isSavoury` and `savoury` — the boolean covers it.
 
 ### 2. Load schema and existing foods
 
@@ -80,6 +99,7 @@ Call `mcp__Sanity__create_documents_from_json` with a single recipe document:
     "isSavoury": <bool>,
     "courseType": "<appetizer|dessert|main|snack|starter>",
     "source": "<original URL>",
+    "tags": ["tag1", "tag2", "tag3"],
     "steps": ["step 1...", "step 2..."],
     "ingredients": [
       {
