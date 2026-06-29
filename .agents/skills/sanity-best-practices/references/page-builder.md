@@ -88,9 +88,7 @@ export const splitImageType = defineType({
   name: 'splitImage',
   type: 'object',
   icon: BlockContentIcon,
-  fields: [
-    /* ... */
-  ],
+  fields: [/* ... */],
   preview: {
     select: { title: 'title', media: 'image' },
     prepare({ title, media }) {
