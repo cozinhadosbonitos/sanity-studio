@@ -42,6 +42,9 @@
     "globals": "17.9.0",
     "prettier": "3.9.6"
   },
+  "overrides": {
+    "undici": "7.29.0"
+  },
   "prettier": {
     "semi": false,
     "singleQuote": true,
