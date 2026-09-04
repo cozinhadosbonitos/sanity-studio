@@ -48,7 +48,7 @@
       "smol-toml": "1.8.0"
     },
     "@module-federation/dts-plugin": {
-      "undici": "7.29.1"
+      "undici": "8.10.2"
     }
   },
   "prettier": {
