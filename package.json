@@ -22,11 +22,11 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "6.14.0",
+    "@sanity/vision": "6.14.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-icons": "5.7.0",
-    "sanity": "6.14.0",
+    "sanity": "6.14.1",
     "styled-components": "6.5.3",
     "typescript": "6.0.3"
   },
@@ -40,7 +40,7 @@
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-react": "7.37.5",
     "globals": "17.12.0",
-    "prettier": "3.9.6"
+    "prettier": "3.9.7"
   },
   "overrides": {
     "@vercel/frameworks": {
