@@ -17,16 +17,16 @@ Sanity Studio for "Cozinha dos Bonitos", a recipe website. This is a content man
 - `npm run deploy` — Deploy studio + GraphQL API
 - `npm run deploy:studio` — Deploy studio only (`sanity deploy`)
 - `npm run deploy:graphql` — Deploy GraphQL only (`sanity graphql deploy --force`)
-- `npm run check:lint` — Run ESLint
-- `npm run check:format` — Check Prettier formatting
+- `npm run check:lint` — Run Oxlint
+- `npm run check:format` — Check Oxfmt formatting
 - `npm run check:types` — TypeScript type checking
-- `npm run format` — Auto-format with Prettier
+- `npm run format` — Auto-format with Oxfmt
 
 ## Code Style
 
-- No semicolons, single quotes, trailing commas (es5) — enforced by Prettier
+- No semicolons, single quotes, trailing commas (es5) — enforced by Oxfmt
 - TypeScript with strict mode
-- ESLint flat config (`eslint.config.mjs`) with Prettier integration
+- Oxlint config (`.oxlintrc.json`) and Oxfmt config (`.oxfmtrc.json`)
 
 ## Schema Architecture
 
