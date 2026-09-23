@@ -17,9 +17,9 @@ Sanity Studio for "Cozinha dos Bonitos", a recipe website. This is a content man
 - `npm run deploy` — Deploy studio + GraphQL API
 - `npm run deploy:studio` — Deploy studio only (`sanity deploy`)
 - `npm run deploy:graphql` — Deploy GraphQL only (`sanity graphql deploy --force`)
-- `npm run lint:eslint` — Run ESLint
-- `npm run lint:prettier` — Check Prettier formatting
-- `npm run lint:tsc` — TypeScript type checking
+- `npm run check:lint` — Run ESLint
+- `npm run check:format` — Check Prettier formatting
+- `npm run check:types` — TypeScript type checking
 - `npm run format` — Auto-format with Prettier
 
 ## Code Style

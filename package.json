@@ -8,9 +8,9 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write .",
-    "lint:eslint": "eslint .",
-    "lint:prettier": "prettier --check .",
-    "lint:tsc": "tsc",
+    "check:lint": "eslint .",
+    "check:format": "prettier --check .",
+    "check:types": "tsc",
     "deploy": "npm run deploy:studio && npm run deploy:graphql",
     "deploy:studio": "sanity deploy",
     "deploy:graphql": "sanity graphql deploy --force",
